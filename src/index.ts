@@ -1,4 +1,5 @@
 export * from "./math"
+export * from "./useDeviceOrientation"
 export * from "./useRandomSoftColors"
 export * from "./useSize"
 export * from "./useTimeout"
