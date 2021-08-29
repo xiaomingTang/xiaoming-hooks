@@ -31,7 +31,7 @@ const devWebpackConfig = merge(commonWebpackConfig, {
     contentBase: Paths.DistExample,
     // https: true,
     host: "0.0.0.0",
-    port: 8080,
+    port: 8001,
     useLocalIp: true,
     hot: true,
     open: true,

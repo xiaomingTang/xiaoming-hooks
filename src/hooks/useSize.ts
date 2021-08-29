@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react"
-import { throttle } from "throttle-debounce"
+import { throttle } from "lodash-es"
 
 export interface Size {
   width: number;
@@ -39,23 +39,23 @@ const getSizeMap: {
 
 /**
  * @param type @default "DOC_CLIENT_SIZE"
- * @param throttleTime @default 200
+ * @param throttleMs @default 300
  */
-export function useSize(type: SizeType = "DOC_CLIENT_SIZE", throttleTime = 200): Size {
+export function useSize(type: SizeType = "DOC_CLIENT_SIZE", throttleMs = 300): Size {
   const [state, setState] = useState<Size>({
     width: 1,
     height: 1,
   })
 
   useEffect(() => {
-    const resizeHandler = throttle(throttleTime, () => {
+    const resizeHandler = throttle(() => {
       const getSizeFunc = getSizeMap[type]
       if (getSizeFunc) {
         setState(getSizeFunc)
       } else {
         console.error(`useSize parameter error: type expected SizeType, got ${type}`)
       }
-    })
+    }, throttleMs)
 
     resizeHandler()
 
@@ -67,14 +67,7 @@ export function useSize(type: SizeType = "DOC_CLIENT_SIZE", throttleTime = 200):
       window.removeEventListener("resize", resizeHandler)
       window.removeEventListener("orientationchange", resizeHandler)
     }
-  }, [type, throttleTime])
+  }, [type, throttleMs])
 
   return state
-}
-
-type Orientation = "PORTRAIT" | "LANDSCAPE"
-
-export function useOrientation(): Orientation {
-  const windowInnerSize = useSize("WINDOW_INNER_SIZE")
-  return windowInnerSize.width > windowInnerSize.height ? "LANDSCAPE" : "PORTRAIT"
 }

@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react"
-import { throttle } from "throttle-debounce"
+import { throttle } from "lodash-es"
 
 interface DeviceOrientation {
   /**
@@ -33,14 +33,14 @@ interface WebkitDeviceOrientationEvent extends DeviceOrientationEvent {
 }
 
 /**
- * @param throttleTimeMs @default 200
+ * @param throttleMs @default 300
  */
-export function useDeviceOrientation(throttleTimeMs = 200): DeviceOrientation {
+export function useDeviceOrientation(throttleMs = 300): DeviceOrientation {
   const [orientation, setOrientation] = useState<DeviceOrientation>(defaultOrientation)
   const initialOffsetRef = useRef<number | null>(null)
 
   useEffect(() => {
-    const onOrientationChange = throttle(throttleTimeMs, (e: DeviceOrientationEvent) => {
+    const onOrientationChange = throttle((e: DeviceOrientationEvent) => {
       // e.absolute 可能为 null 或者其他值(或许什么时候修改了接口呢...), 所以如此判断
       const absolute = e.absolute === true
       let alpha = e.alpha || 0
@@ -76,14 +76,14 @@ export function useDeviceOrientation(throttleTimeMs = 200): DeviceOrientation {
         beta,
         gamma,
       })
-    })
+    }, throttleMs)
 
     window.addEventListener("deviceorientation", onOrientationChange)
 
     return () => {
       window.removeEventListener("deviceorientation", onOrientationChange)
     }
-  }, [throttleTimeMs])
+  }, [throttleMs])
 
   return orientation
 }
