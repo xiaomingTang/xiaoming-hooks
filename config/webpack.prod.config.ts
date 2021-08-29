@@ -17,7 +17,20 @@ const prodWebpackConfig = merge(commonWebpackConfig, {
   entry: {
     index: path.resolve(Paths.Src, "index.ts"),
   },
-  externals: {},
+  externals: {
+    react: {
+      commonjs: 'react',
+      commonjs2: 'react',
+      amd: 'react',
+      root: 'React',
+    },
+    lodash: {
+      commonjs: 'lodash',
+      commonjs2: 'lodash',
+      amd: 'lodash',
+      root: '_',
+    },
+  },
   output: {
     path: Paths.DistUmd,
     filename: "[name].js",

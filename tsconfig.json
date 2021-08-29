@@ -1,17 +1,15 @@
 {
   "compilerOptions": {
-    "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
     "baseUrl": ".",
     "outDir": "./dist/umd",
     "sourceMap": true,
     "declaration": true,
-    "module": "ESNext",
-    "target": "ES2018",
+    "module": "esnext",
+    "target": "es6",
     "jsx": "react",
     "moduleResolution": "node",
     "allowJs": true,
-    "resolveJsonModule": true,
     "strict": true,
     "paths": {
       "@Src/*": ["src/*"],

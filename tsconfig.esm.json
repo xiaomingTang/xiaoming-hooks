@@ -1,5 +1,5 @@
 {
-  "extends": "./tsconfig-for-build.json",
+  "extends": "./tsconfig-for-build",
   "compilerOptions": {
     "module": "es6",
     "outDir": "dist/esm"
